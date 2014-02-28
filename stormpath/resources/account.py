@@ -80,7 +80,7 @@ class Account(Resource, AutoSaveMixin, DeleteMixin, StatusMixin):
     def create_challenge(self, type):
         """Creates a challenge on the account.
 
-        :param type: Type of challenge to send (sms, or email, or all).
+        :param type: Type of challenge to send (sms or email).
         """
         challenge = self.challenge_tokens.create({'type' : type})
         return challenge
