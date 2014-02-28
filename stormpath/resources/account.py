@@ -9,6 +9,8 @@ from .base import (
     StatusMixin,
 )
 
+from .challenge_token import ChallengeToken
+
 
 class Account(Resource, AutoSaveMixin, DeleteMixin, StatusMixin):
     """Account resource.
@@ -38,6 +40,7 @@ class Account(Resource, AutoSaveMixin, DeleteMixin, StatusMixin):
         from .group import GroupList
         from .group_membership import GroupMembershipList
         from .tenant import Tenant
+        from .challenge_token import ChallengeTokenList
 
         return {
             'custom_data': CustomData,
@@ -46,6 +49,7 @@ class Account(Resource, AutoSaveMixin, DeleteMixin, StatusMixin):
             'groups': GroupList,
             'group_memberships': GroupMembershipList,
             'tenant': Tenant,
+            'challenge_tokens' : ChallengeTokenList
         }
 
     def add_group(self, group):
@@ -72,6 +76,21 @@ class Account(Resource, AutoSaveMixin, DeleteMixin, StatusMixin):
         http://docs.stormpath.com/console/product-guide/#cloud-directory-workflow-automations
         """
         return self.get_status() == self.STATUS_UNVERIFIED
+
+    def create_challenge(self, type):
+        """Creates a challenge on the account.
+
+        :param type: Type of challenge to send (sms, or email, or all).
+        """
+        challenge = self.challenge_tokens.create({'type' : type})
+        return challenge
+
+    def verify_challenge_token(self, token):
+        """Verify challenge by using a token.
+
+        :param token: challenge token extracted from the URL.
+        """
+        return self.challenge_tokens[token].account
 
 
 class AccountList(CollectionResource):

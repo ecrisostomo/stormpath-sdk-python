@@ -45,7 +45,7 @@ class Application(Resource, DeleteMixin, SaveMixin, StatusMixin):
         }
 
     def authenticate_account(self, login, password, expand=None,
-            account_store=None):
+            account_store=None, ip_address=None):
         """Authenticate Account inside the Application.
 
         :param login: Username or email address
@@ -58,9 +58,12 @@ class Application(Resource, DeleteMixin, SaveMixin, StatusMixin):
         :param account_store:
             A specific :class:`stormpath.resources.account_store.AccountStore`
             object to authenticate against (optional)
+
+        :param ip_address:
+            IP that specifies the location from where the user is authenticated.
         """
         return self.login_attempts.basic_auth(login, password, expand,
-            account_store)
+            account_store, ip_address)
 
     def send_password_reset_email(self, email):
         """Send a password reset email.
