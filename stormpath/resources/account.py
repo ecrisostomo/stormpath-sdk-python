@@ -90,7 +90,7 @@ class Account(Resource, AutoSaveMixin, DeleteMixin, StatusMixin):
 
         :param token: challenge token extracted from the URL.
         """
-        return self.challenge_tokens[token].account
+        return self.challenge_tokens[token]
 
 
 class AccountList(CollectionResource):
