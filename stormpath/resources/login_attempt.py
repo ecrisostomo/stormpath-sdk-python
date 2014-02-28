@@ -16,7 +16,7 @@ class AuthenticationResult(Resource):
     http://docs.stormpath.com/rest/product-guide/#authenticate-an-account
     """
 
-    writable_attrs = ('ip_address', 'challenge',)
+    writable_attrs = ('type', 'value', 'account_store', 'ip_address', 'challenge',)
 
     def get_resource_attributes(self):
         from .account import Account
